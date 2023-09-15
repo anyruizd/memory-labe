@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { MemoryCard } from './MemoryCard.tsx'
 import { PlusSmallIcon } from '@heroicons/react/20/solid'
 import { CreateMemoryModal } from './CreateMemoryModal.tsx'
+import { Memory } from '../utils/types.tsx'
 
 const initialMemories = [
   {
@@ -20,17 +21,25 @@ const initialMemories = [
   }
 ]
 
-interface Memory {
-    id?: number
-    title: string
-    description: string
-    date: string
-    imageUrl: string
-}
-
 export function Memories() {
     const [isModalOpen, setModalOpen] = useState(false);
     const [memories, setMemories] = useState<Memory[]>(initialMemories)
+
+    // useEffect(() => {
+    //     function init() {
+    //         fetch("http://localhost:4001/memories/")
+    //         .then((response) => {
+    //             if (!response.ok) {
+    //                 throw new Error(`HTTP error! Status: ${response.status}`)
+    //             }
+    //             return response.json()
+    //         })
+    //         .then((response) => {
+    //             setMemories(response.memories)
+    //         })
+    //     }
+    //     init()
+    // }, [])
 
     return (
         <>

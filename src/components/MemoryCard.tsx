@@ -1,11 +1,5 @@
 import { EllipsisHorizontalIcon } from '@heroicons/react/20/solid'
-
-interface MemoryCardProps {
-  description: string;
-  imageUrl: string;
-  title: string;
-  date: string;
-}
+import { Memory as MemoryCardProps} from '../utils/types'
 
 export function MemoryCard({ description, title, imageUrl, date }:MemoryCardProps) {
   return (
