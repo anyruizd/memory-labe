@@ -30,6 +30,7 @@ interface MemoryModalProps {
   onRequestClose: () => void
   onSaveMemory: () => void
   selectedMemory?: Memory
+  userId: number
 }
 
 export function CreateMemoryModal({
@@ -37,6 +38,7 @@ export function CreateMemoryModal({
   onRequestClose,
   onSaveMemory,
   selectedMemory,
+  userId,
 }: MemoryModalProps) {
 
   const initialMemory:Memory = {
@@ -44,10 +46,14 @@ export function CreateMemoryModal({
     description: selectedMemory?.description ?? '',
     timestamp: selectedMemory?.timestamp ?? '',
     imageUrl: selectedMemory?.imageUrl ?? '',
+    userId: selectedMemory?.userId ?? userId,
   }
   const handleSaveMemory = async (memory: Memory) => {
     if (selectedMemory) {
-      await updateMemory(selectedMemory.id as number, memory)
+      await updateMemory(selectedMemory.id as number, {
+        ...memory,
+        userId,
+      })
     } else {
       await createMemory(memory)
     }
