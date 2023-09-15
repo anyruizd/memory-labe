@@ -1,8 +1,9 @@
 import Modal from 'react-modal'
-import { Memory } from '../utils/types'
 import { Formik } from 'formik'
 import * as Yup from 'yup'
 import { InputError } from './InputError'
+import { Memory } from '../utils/types'
+import { createMemory, updateMemory } from '../utils/service'
 
 Modal.setAppElement('#root')
 const customStyles = {
@@ -27,20 +28,30 @@ const validationSchema = Yup.object({
 interface MemoryModalProps {
   isOpen: boolean
   onRequestClose: () => void
-  onSaveMemory: (memory: Memory) => void
+  onSaveMemory: () => void
+  selectedMemory?: Memory
 }
 
 export function CreateMemoryModal({
   isOpen,
   onRequestClose,
   onSaveMemory,
+  selectedMemory,
 }: MemoryModalProps) {
 
   const initialMemory:Memory = {
-    name: '',
-    description: '',
-    timestamp: '',
-    imageUrl: '',
+    name: selectedMemory?.name ?? '',
+    description: selectedMemory?.description ?? '',
+    timestamp: selectedMemory?.timestamp ?? '',
+    imageUrl: selectedMemory?.imageUrl ?? '',
+  }
+  const handleSaveMemory = async (memory: Memory) => {
+    if (selectedMemory) {
+      await updateMemory(selectedMemory.id as number, memory)
+    } else {
+      await createMemory(memory)
+    }
+    onSaveMemory()
   }
   return (
     <Modal style={customStyles} isOpen={isOpen} onRequestClose={onRequestClose}>
@@ -48,7 +59,7 @@ export function CreateMemoryModal({
         initialValues={initialMemory}
         validationSchema={validationSchema}
         onSubmit={(values, { resetForm }) => {
-          onSaveMemory(values)
+          handleSaveMemory(values)
           resetForm()
         }}
       >
