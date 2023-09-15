@@ -1,9 +1,10 @@
-const express = require('express')
-const sqlite3 = require('sqlite3')
+import express from 'express'
+import pkg from 'sqlite3'
+const { Database } = pkg
 
 const app = express()
 const port = 4001
-const db = new sqlite3.Database('memories.db')
+const db = new Database('memories.db')
 
 app.use(express.json())
 
