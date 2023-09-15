@@ -1,7 +1,7 @@
 export interface Memory {
     id?: number
-    title: string
+    name: string
     description: string
-    date: string
+    timestamp: string
     imageUrl: string
 }

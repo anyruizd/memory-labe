@@ -1,12 +1,17 @@
 import express from 'express'
 import pkg from 'sqlite3'
-const { Database } = pkg
+import cors from 'cors'
 
+
+const { Database } = pkg
 const app = express()
 const port = 4001
 const db = new Database('memories.db')
 
 app.use(express.json())
+app.use(cors({
+  origin: '*'
+}))
 
 db.serialize(() => {
   db.run(`

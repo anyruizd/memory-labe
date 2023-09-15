@@ -19,9 +19,9 @@ const customStyles = {
 }
 
 const validationSchema = Yup.object({
-  title: Yup.string().required('Title is required'),
+  name: Yup.string().required('Title is required').max(30, 'Title is too long'),
   description: Yup.string().required('Description is required'),
-  date: Yup.string().required('Date is required'),
+  timestamp: Yup.string().required('Date is required'),
 })
 
 interface MemoryModalProps {
@@ -35,10 +35,11 @@ export function CreateMemoryModal({
   onRequestClose,
   onSaveMemory,
 }: MemoryModalProps) {
+
   const initialMemory:Memory = {
-    title: '',
+    name: '',
     description: '',
-    date: '',
+    timestamp: '',
     imageUrl: '',
   }
   return (
@@ -51,7 +52,7 @@ export function CreateMemoryModal({
           resetForm()
         }}
       >
-        {({ values, handleChange, handleBlur, handleSubmit, errors }) => {
+        {({ values, handleChange, handleBlur, handleSubmit, errors, touched }) => {
           return (
             <form className='flex flex-col gap-4' onSubmit={handleSubmit}>
               <h3 className='text-2xl text-center'>
@@ -62,14 +63,14 @@ export function CreateMemoryModal({
                   <span className='uppercase text-xs'>Title</span>
                   <input
                     className='w-full border-solid border rounded'
-                    name='title'
+                    name='name'
                     type='text'
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    value={values.title}
+                    value={values.name}
                   />
                 </label>
-                {errors.title ? <InputError error={errors.title} /> : null}
+                {errors.name && touched.name ? <InputError error={errors.name} /> : null}
               </div>
               <div>
                 <label className='flex flex-col'>
@@ -83,7 +84,7 @@ export function CreateMemoryModal({
                     value={values.description}
                   />
                 </label>
-                {errors.description ? <InputError error={errors.description} /> : null}
+                {errors.description && touched.description ? <InputError error={errors.description} /> : null}
               </div>
               <div>
                 <label className='flex flex-col'>
@@ -91,13 +92,13 @@ export function CreateMemoryModal({
                   <input
                     className='w-full border-solid border rounded'
                     type='date'
-                    name='date'
+                    name='timestamp'
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    value={values.date}
+                    value={values.timestamp}
                   />
                 </label>
-                {errors.date ? <InputError error={errors.date} /> : null}
+                {errors.timestamp && touched.timestamp ? <InputError error={errors.timestamp} /> : null}
               </div>
               <div className='flex flex-col gap-2'>
                 <button
